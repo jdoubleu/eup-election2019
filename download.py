@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # Download and verify all raw data from
 # https://election-results.eu/tools/download-datasheets/
+#
+# Run this file to download allresources, or import it and
+# use the download_get() function
 import os
 from urllib import request
 import crypto
@@ -31,7 +34,7 @@ def filename(resource_url):
 def download_file(resource_url):
     return download_dir + filename(resource_url)
 
-def create_download_dir():
+def ensure_download_dir():
     if not os.path.exists(download_dir):
         os.mkdir(download_dir)
 
@@ -53,6 +56,21 @@ def download(resource_url):
     # verify signature
     if not crypto.verify_file_sig(download_path, sig_download_path):
         raise Exception('Signature could not be validated for {}'.format(resource_url))
+
+def download_get(resource_url):
+    """
+    Downloads the given resource and returns its file path
+
+    Parameters:
+        resource_url (str): resource to download
+
+    Returns:
+        str: path to the downloaded file
+    """
+    ensure_download_dir()
+    download(resource_url)
+
+    return download_file(resource_url)
             
 def download_all():
     for path in resources:
@@ -66,5 +84,5 @@ def download_all():
         
 # exec
 if __name__ == "__main__":
-    create_download_dir()
+    ensure_download_dir()
     download_all() 
