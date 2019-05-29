@@ -3,3 +3,6 @@ Interactive analysis of the election of the European Parliament in 2019 using Ju
 
 ## Data
 All raw data is provided by the European Parlament: https://election-results.eu/tools/download-datasheets/
+
+## License
+You can use these notebooks under the [CC-BY-4.0](LICENSE) license.
